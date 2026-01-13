@@ -1,0 +1,64 @@
+{
+  "num_nodes": 468,
+  "num_edges": 3592,
+  "num_species": 322,
+  "num_samples": 146,
+  "density": 0.03287029411226414,
+  "species_degree_mean": 11.15527950310559,
+  "species_degree_std": 17.813407960936267,
+  "sample_degree_mean": 24.602739726027398,
+  "sample_degree_std": 24.48720086478917,
+  "is_connected": false,
+  "num_connected_components": 2,
+  "diameter_largest_component": 5,
+  "avg_shortest_path_largest_component": 2.8849647756766776,
+  "largest_component_size": 465,
+  "species_clustering_coefficient": 0.8240110795107278,
+  "sample_clustering_coefficient": 0.982650017595404,
+  "avg_degree_centrality": 0.03287029411226414,
+  "avg_betweenness_centrality": 0.003993260642404571,
+  "top_5_species": [
+    [
+      "Mitochondria",
+      137
+    ],
+    [
+      "Allorhizobium-Neorhizobium-Pararhizobium-Rhizobium",
+      131
+    ],
+    [
+      "Pseudomonas",
+      92
+    ],
+    [
+      "Streptomyces",
+      82
+    ],
+    [
+      "Caulobacter",
+      74
+    ]
+  ],
+  "top_5_samples": [
+    [
+      "11E",
+      106
+    ],
+    [
+      "10B",
+      91
+    ],
+    [
+      "2Ff",
+      89
+    ],
+    [
+      "9H",
+      86
+    ],
+    [
+      "11D",
+      84
+    ]
+  ]
+}

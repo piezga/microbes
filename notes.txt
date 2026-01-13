@@ -1,0 +1,3 @@
+# 12/1/26
+
+I have both weighted and binary data.

@@ -1,0 +1,63 @@
+{
+  "num_nodes": 1031,
+  "num_edges": 15523,
+  "num_species": 991,
+  "num_samples": 40,
+  "density": 0.029235448664224572,
+  "species_degree_mean": 15.663975782038346,
+  "species_degree_std": 13.268214407275597,
+  "sample_degree_mean": 388.075,
+  "sample_degree_std": 46.82327813171564,
+  "is_connected": true,
+  "num_connected_components": 1,
+  "diameter": 4,
+  "average_shortest_path_length": 2.4054466866930966,
+  "species_clustering_coefficient": 0.8841981513366111,
+  "sample_clustering_coefficient": 1.0,
+  "avg_degree_centrality": 0.029235448664224572,
+  "avg_betweenness_centrality": 0.0013658374020341073,
+  "top_5_species": [
+    [
+      "wastewater_metagenome",
+      40
+    ],
+    [
+      "uncultured_soil",
+      40
+    ],
+    [
+      "uncultured_proteobacterium",
+      40
+    ],
+    [
+      "uncultured_organism",
+      40
+    ],
+    [
+      "uncultured_prokaryote",
+      40
+    ]
+  ],
+  "top_5_samples": [
+    [
+      "39-5G",
+      533
+    ],
+    [
+      "18-3B",
+      484
+    ],
+    [
+      "17-3A",
+      466
+    ],
+    [
+      "34-5B",
+      445
+    ],
+    [
+      "38-5F",
+      431
+    ]
+  ]
+}
