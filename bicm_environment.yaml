@@ -1,0 +1,10 @@
+name: bicm
+channels:
+  - conda-forge/label/cf201901
+  - defaults
+dependencies:
+  - python=2.7
+  - numpy=1.16.*
+  - scipy=1.2.*
+  - pytest=4.6.*
+
