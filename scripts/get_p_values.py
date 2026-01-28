@@ -5,9 +5,19 @@ import numpy as np
 
 # Flags
 debug = False
+desktop = True
 
 # Parameters
-datasets = ['soil']
+datasets = ['root']
+
+
+
+if desktop:
+    virt_env = 'conda'
+else:
+    virt_env = 'mamba'
+
+
 
 for dataset_name in datasets:
     print("\n" + "="*70)
@@ -49,7 +59,7 @@ for dataset_name in datasets:
     # 2. Fit that mat 
     # --------------------------------------------------
     subprocess.run([
-        "mamba", "run", "-n", "bicm", "python", "src/fit_bicm.py", str(mat_path), str(output_dir)
+        f"{virt_env}", "run", "-n", "bicm", "python", "src/fit_bicm.py", str(mat_path), str(output_dir)
     ])
 
     # --------------------------------------------------
