@@ -12,7 +12,7 @@
   "num_connected_components": 1,
   "diameter": 4,
   "average_shortest_path_length": 2.4054466866930966,
-  "species_clustering_coefficient": 0.8841981513366111,
+  "species_clustering_coefficient": null,
   "sample_clustering_coefficient": 1.0,
   "avg_degree_centrality": 0.029235448664224572,
   "avg_betweenness_centrality": 0.0013658374020341073,

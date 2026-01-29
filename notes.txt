@@ -1,3 +1,34 @@
 # 12/1/26
 
 I have both weighted and binary data.
+
+# 29/1/26
+
+The packages from Saracco et al. work well. It is possible to fit the BiCM rather
+quickly.
+The current problem lies in the distribution of p-values. It is heavily skewed towards 1,
+leading to an empty projection. What does it mean to be skewed towards 1?
+
+Memo: the p-value is the probability of observing a number of V-motifs greater than, 
+or equal to, the observed one.
+
+So a distribution skewed towards 1 means that we are almost certain to observe at least
+the observed amount of V motifs under the null hypothesis. Keyword being "at least":
+we are doing a one-tail statistical test. From the paper: 
+
+
+"As a final remark, notice that this approach describes a one-tail statistical test, 
+where nodes are considered as
+significantly similar if, and only if, the observed number of shared neighbors is 
+‘sufficiently large’. In principle,
+our algorithm can be also used to carry out the reverse validation, linking any two 
+nodes if the observed number
+of shared neighbors is ‘sufficiently small’: this second type of validation can be 
+performed whenever interested in
+highlighting the ‘dissimilarity’ between nodes."
+
+This is like saying that we would be expecting even more links than what we observe
+
+
+Hypothesis 1: are the species so omnipresent that it is expected for them to have a p 
+skewed towards 1?

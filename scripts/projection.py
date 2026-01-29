@@ -93,7 +93,7 @@ def fdr_procedure(pvalues, t=0.05):
 
 # Parameters
 desktop = True  # Set to False if not on desktop
-datasets = ['soil']
+datasets = ['root']
 t = 0.05
 
 if desktop:

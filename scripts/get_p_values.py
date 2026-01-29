@@ -5,12 +5,17 @@ import numpy as np
 
 # Flags
 debug = False
-desktop = True
+desktop = False
+
+print(f'Desktop is set to {desktop}')
 
 # Parameters
 datasets = ['root']
+N_top = 0 # top species to drop
+N_bottom = 0 # least abundant species
 
-
+print(f'Dropping {N_top} most abundant species')
+print(f'Dropping {N_bottom} most rare species')
 
 if desktop:
     virt_env = 'conda'
@@ -40,11 +45,23 @@ for dataset_name in datasets:
     # Drop all-zero rows/columns 
     df = df.loc[df.sum(axis=1) > 0, :]
     df = df.loc[:, df.sum(axis=0) > 0]
-    
+
     # Save original row and column names BEFORE any sorting
     original_rows = df.index.tolist()  # Species names
     original_cols = df.columns.tolist()  # Sample names
-    
+      
+    # Drop N most abundant species 
+    row_sums = df.sum(axis=1)
+
+    rows_top_drop = row_sums.nlargest(N_top).index
+    rows_bottom_drop = row_sums.nsmallest(N_bottom).index
+    all_rows_to_drop = rows_top_drop.union(rows_bottom_drop)
+    # Create list of rows to KEEP
+    rows_to_keep = [row for row in original_rows if row not in all_rows_to_drop]
+
+    df = df.drop(index=all_rows_to_drop)
+
+
     if debug:
         print(df)
 
@@ -72,23 +89,27 @@ for dataset_name in datasets:
     # Load the probability matrix
     prob_matrix_path = output_dir / 'adj_matrix.tsv'
     prob_matrix = np.loadtxt(prob_matrix_path)
-    
-    # Create DataFrame with original row/column names
+   
+    # Get indices of rows to keep in the original matrix
+    keep_indices = [original_rows.index(row) for row in rows_to_keep]
+
+    # Filter probability matrix to only include kept rows
+    filtered_prob_matrix = prob_matrix[keep_indices, :]
+
+    # Create DataFrame with correct (filtered) rows
     prob_df = pd.DataFrame(
-        prob_matrix,
-        index=original_rows,  # Use original species names
-        columns=original_cols  # Use original sample names
+        filtered_prob_matrix,
+        index=rows_to_keep,  # Use filtered species names
+        columns=original_cols  # All samples (no column dropping)
     )
-    
+   
     # Save as CSV
     prob_csv_path = output_dir / 'probability_dataframe.csv'
     prob_df.to_csv(prob_csv_path)
     
     print(f"Saved probability DataFrame to: {prob_csv_path}")
     print(f"DataFrame shape: {prob_df.shape}")
-    print(f"Species (rows): {len(original_rows)}")
-    print(f"Samples (columns): {len(original_cols)}")
-    
+
     # Show a preview
     print("\nPreview of probability matrix:")
     print(prob_df.iloc[:5, :5])
