@@ -1,0 +1,94 @@
+Configurazione VPN IMT su Ubuntu con strongSwan
+================================================
+
+1. Installare i pacchetti richiesti
+-----------------------------------
+Aprire un terminale ed eseguire:
+
+    sudo apt update
+    sudo apt install strongswan strongswan-pki libcharon-extra-plugins
+
+2. Creare o modificare i file di configurazione
+-----------------------------------------------
+Editare la configurazione di strongSwan per definire la connessione VPN.
+Sostituire `IMTLucca username` con il proprio account WiFi IMT (formato: nome.cognome).
+
+File: /etc/ipsec.conf
+---------------------
+
+    config setup       
+        uniqueids=no
+
+    conn imtlucca
+        keyexchange=ikev2
+        type=tunnel
+        auto=add
+
+        ike=aes128-sha256-modp2048,aes256-sha256-modp2048!
+        esp=aes128-sha256-modp2048,aes256-sha256-modp2048!
+
+        left=%defaultroute
+        leftsourceip=%config
+        leftauth=eap-mschapv2
+        leftid="1"
+        rightsubnet=0.0.0.0/0
+        eap_identity="IMTLucca username"
+
+        right=vpn.imtlucca.it
+        rightauth=psk
+        rightid=%any
+
+        fragmentation=yes
+        mobike=yes
+        dpdaction=restart
+        keyingtries=%forever
+        rekey=no
+
+File: /etc/ipsec.secrets
+------------------------
+
+    : PSK "imtgovpn"
+    IMTLucca username : EAP "IMTLucca wifi password"
+
+⚠️ Sostituire `IMTLucca username` e `IMTLucca wifi password` con le proprie credenziali.
+
+Limitare i permessi del file:
+
+    sudo chmod 600 /etc/ipsec.secrets
+
+3. Avviare la VPN
+-----------------
+
+    sudo ipsec stop
+    sudo ipsec start
+    sudo ipsec up imtlucca
+
+4. Verificare la connessione
+----------------------------
+
+- Stato connessione:
+  
+      sudo ipsec statusall
+
+- IP assegnato (dovrebbe essere in 172.17.10.x):
+
+      ip addr show
+
+- Statistiche traffico cifrato:
+
+      sudo ipsec statusall
+
+5. Disconnessione
+-----------------
+
+    sudo ipsec down imtlucca
+
+6. Troubleshooting & Tips
+-------------------------
+
+- Controllare i log in caso di errori:
+
+      journalctl -u strongswan-starter -b | tail -n 50
+
+- Solo un utente alla volta può collegarsi con lo stesso account.
+- È possibile creare uno script bash per automatizzare i comandi di connessione/disconnessione.
