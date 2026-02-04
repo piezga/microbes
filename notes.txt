@@ -32,3 +32,8 @@ This is like saying that we would be expecting even more links than what we obse
 
 Hypothesis 1: are the species so omnipresent that it is expected for them to have a p 
 skewed towards 1?
+
+# 4/2
+
+As expected there is no point in dropping the top/bottom N species, as the p-values
+obtained this way are merely a subset of the original p-values.

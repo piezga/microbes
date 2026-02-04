@@ -2,17 +2,22 @@ import pandas as pd
 from pathlib import Path 
 import subprocess
 import numpy as np 
+import yaml
+
+# Load config
+with open('config.yaml', 'r') as f:
+    config = yaml.safe_load(f)
 
 # Flags
-debug = False
-desktop = False
+debug = config['general']['debug']
+desktop = config['general']['desktop']
 
 print(f'Desktop is set to {desktop}')
 
 # Parameters
-datasets = ['root']
-N_top = 0 # top species to drop
-N_bottom = 0 # least abundant species
+datasets = config['parameters']['datasets']
+N_top = config['parameters']['N_top'] # top species to drop
+N_bottom = config['parameters']['N_bottom'] # bottom species to drop
 
 print(f'Dropping {N_top} most abundant species')
 print(f'Dropping {N_bottom} most rare species')
@@ -89,12 +94,11 @@ for dataset_name in datasets:
     # Load the probability matrix
     prob_matrix_path = output_dir / 'adj_matrix.tsv'
     prob_matrix = np.loadtxt(prob_matrix_path)
-   
+
     # Get indices of rows to keep in the original matrix
     keep_indices = [original_rows.index(row) for row in rows_to_keep]
-
     # Filter probability matrix to only include kept rows
-    filtered_prob_matrix = prob_matrix[keep_indices, :]
+    filtered_prob_matrix = prob_matrix
 
     # Create DataFrame with correct (filtered) rows
     prob_df = pd.DataFrame(

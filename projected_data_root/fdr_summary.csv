@@ -1,8 +1,8 @@
 metric,value
-total_tests,51360.0
+total_tests,51681.0
 significance_level,0.05
-i_hat,-1.0
-p_threshold,0.0
-num_rejected,0.0
-num_accepted,51360.0
-proportion_rejected,0.0
+i_hat,28816.0
+p_threshold,0.0278391359076694
+num_rejected,28817.0
+num_accepted,22864.0
+proportion_rejected,0.5575936998123101

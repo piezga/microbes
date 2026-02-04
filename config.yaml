@@ -1,0 +1,12 @@
+# config.yaml
+general:
+  debug: false
+  desktop: false  # Set to true if on desktop
+  
+parameters:
+  datasets: ['soil']
+  N_top: 0  # top species to drop
+  N_bottom: 0  # least abundant species
+  t: 0.05  # threshold
+  avoidance: True # True: left tail of p-value
+  

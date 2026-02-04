@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
-
+import yaml
 # Helper functions for array-to-matrix conversion
 def flat2triumat_dim(L):
     """
@@ -91,10 +91,15 @@ def fdr_procedure(pvalues, t=0.05):
         'total_tests': M
     }
 
+# Load config
+with open('config.yaml', 'r') as f:
+    config = yaml.safe_load(f)
+
 # Parameters
-desktop = True  # Set to False if not on desktop
-datasets = ['root']
-t = 0.05
+desktop = config['general']['desktop']
+datasets = config['parameters']['datasets']
+t = config['parameters']['t']
+avoidance = config['parameters']['avoidance']
 
 if desktop:
     virt_env = 'conda'
@@ -122,8 +127,11 @@ for dataset_name in datasets:
     # --------------------------------------------------
     p_path = input_dir / 'pvalues' / 'row_pvalues.csv' 
     df = pd.read_csv(p_path, header=None)
-    
-    # Assuming the p-values are in a single column or need to be flattened
+    if avoidance:
+        df = 1 - df
+    df = df.clip(1e-10, 1 - 1e-10)
+
+        # Assuming the p-values are in a single column or need to be flattened
     if df.shape[1] == 1:
         pvalues = df.iloc[:, 0].values
     else:
