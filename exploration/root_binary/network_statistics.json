@@ -10,6 +10,7 @@
   "sample_degree_std": 24.48720086478917,
   "is_connected": false,
   "num_connected_components": 2,
+  "assortativity": -0.3638438324254426,
   "diameter_largest_component": 5,
   "avg_shortest_path_largest_component": 2.8849647756766776,
   "largest_component_size": 465,

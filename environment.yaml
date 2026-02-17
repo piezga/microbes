@@ -1,0 +1,13 @@
+name: microbes
+channels:
+  - conda-forge
+dependencies:
+  - matplotlib
+  - networkx
+  - numpy
+  - pandas
+  - python=3.11
+  - seaborn
+  - spyder
+
+prefix: "/home/blackspot/miniforge3/envs/microbes"

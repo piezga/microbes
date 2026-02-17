@@ -5,7 +5,7 @@ matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import numpy as np
-from networkx.algorithms import bipartite
+from networkx.algorithms import bipartite, degree_assortativity_coefficient 
 import seaborn as sns
 from pathlib import Path
 import json
@@ -62,10 +62,11 @@ def compute_network_stats(G, species_nodes, sample_nodes):
     stats['species_degree_std'] = np.std(species_degrees)
     stats['sample_degree_mean'] = np.mean(sample_degrees)
     stats['sample_degree_std'] = np.std(sample_degrees)
-    
+
     # Connectivity
     stats['is_connected'] = nx.is_connected(G)
     stats['num_connected_components'] = nx.number_connected_components(G)
+    stats['assortativity'] = degree_assortativity_coefficient(G)    
     
     if nx.is_connected(G):
         stats['diameter'] = nx.diameter(G)
@@ -189,6 +190,7 @@ for dataset_name in datasets:
 
     print(f"\nAvg degree centrality: {network_stats['avg_degree_centrality']:.4f}")
     print(f"Avg betweenness centrality: {network_stats['avg_betweenness_centrality']:.4f}")
+    print(f"Assortativity coefficient: {network_stats['assortativity']:.4f}")
 
     if network_stats['species_clustering_coefficient'] is not None:
         print(f"Species clustering coefficient: {network_stats['species_clustering_coefficient']:.4f}")

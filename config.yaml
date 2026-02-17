@@ -4,9 +4,9 @@ general:
   desktop: false  # Set to true if on desktop
   
 parameters:
-  datasets: ['soil']
+  datasets: ['root']
   N_top: 0  # top species to drop
   N_bottom: 0  # least abundant species
-  t: 0.05  # threshold
-  avoidance: True # True: left tail of p-value
+  t: 0.9  # threshold
+  avoidance: False # True: left tail of p-value
   
