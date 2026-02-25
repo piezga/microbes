@@ -7,6 +7,6 @@ parameters:
   datasets: ['root']
   N_top: 0  # top species to drop
   N_bottom: 0  # least abundant species
-  t: 0.9  # threshold
+  t: 0.1  # threshold
   avoidance: False # True: left tail of p-value
   

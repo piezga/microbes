@@ -9,6 +9,7 @@ from networkx.algorithms import bipartite, degree_assortativity_coefficient
 import seaborn as sns
 from pathlib import Path
 import json
+import yaml
 
 # Flags
 drawing = False  # Draw graph with nodes and edges
@@ -19,9 +20,12 @@ plt.rcParams['font.family'] = 'sans-serif'
 plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans']
 plt.rcParams['font.size'] = 10
 
-# Datasets to process
-datasets = ['root', 'soil']
 
+with open('config.yaml','r') as f:
+    config = yaml.safe_load(f)
+
+desktop = config['general']['desktop']
+datasets = config['parameters']['datasets']
 
 def print_degree_stats(G, nodes, label):
     degrees = np.array([G.degree(n) for n in nodes])
@@ -147,7 +151,7 @@ for dataset_name in datasets:
 
     species_nodes = list(df.index)
     sample_nodes = list(df.columns)
-
+    
     B.add_nodes_from(species_nodes, bipartite=0, node_type="species")
     B.add_nodes_from(sample_nodes, bipartite=1, node_type="sample")
 
@@ -161,7 +165,8 @@ for dataset_name in datasets:
 
     print(f"Nodes: {B.number_of_nodes()}")
     print(f"Edges: {B.number_of_edges()}")
-
+    
+    biadj_dense = df.to_numpy()
     # --------------------------------------------------
     # 3. Compute and save network statistics
     # --------------------------------------------------
@@ -271,7 +276,6 @@ for dataset_name in datasets:
     plt.tight_layout()
     plt.savefig(output_dir / "degree_distributions.png", dpi=300, bbox_inches='tight')
     print(f"Saved: {output_dir / 'degree_distributions.png'}")
-    plt.show()
     plt.close()
 
     # --------------------------------------------------
@@ -300,7 +304,6 @@ for dataset_name in datasets:
         plt.tight_layout()
         plt.savefig(output_dir / "incidence_matrix.png", dpi=300, bbox_inches='tight')
         print(f"Saved: {output_dir / 'incidence_matrix.png'}")
-        plt.show()
         plt.close()
 
     # --------------------------------------------------
@@ -332,7 +335,6 @@ for dataset_name in datasets:
     plt.tight_layout()
     plt.savefig(output_dir / "degree_rank_plots.png", dpi=300, bbox_inches='tight')
     print(f"Saved: {output_dir / 'degree_rank_plots.png'}")
-    plt.show()
     plt.close()
 
     # --------------------------------------------------
@@ -344,10 +346,28 @@ for dataset_name in datasets:
     print(f"\n{'='*60}")
     print(f"All outputs for {dataset_name} saved to: {output_dir.absolute()}")
     print(f"{'='*60}")
+    
+
+    # --------------------------------------------------
+    # 8. Check number of V-motifs
+    # --------------------------------------------------
+    V_matrix = biadj_dense @ biadj_dense.T 
+
+    # Count zeros
+    zero_count = np.sum(V_matrix == 0)
+    print(f"Zeros: {zero_count}/{V_matrix.size} ({zero_count/V_matrix.size:.1%})")
+
+    # Simple plot
+    plt.figure(figsize=(5,4))
+    plt.imshow(V_matrix, cmap='viridis', aspect='auto')
+    plt.colorbar(label='Shared samples')
+    plt.title('V-motifs')
+    plt.show() 
 
 # --------------------------------------------------
 # Summary
 # --------------------------------------------------
+plt.show()
 print("\n" + "="*70)
 print("PROCESSING COMPLETE")
 print("="*70)
